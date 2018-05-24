@@ -327,7 +327,8 @@ var oProjector = new ReProjector({
 		},
 		'toggle': 'click',
 		'hideCursor': true,
-		'showNextOnClick': false
+		'showNextOnClick': false,
+		'zoomLinkBox': false
 	},
 	'callbacks': {
 		'open': null,
@@ -480,6 +481,10 @@ var oProjector = new ReProjector({
 				</td></tr>
 				<tr><td class="cell-option"><strong>showNextOnClick</strong></td><td class="cell-description">
 					Boolean value, describes whether click over the projected image will cause navigation to next one.<br>
+					<strong class="example">Default:</strong> <code>false</code>
+				</td></tr>
+				<tr><td class="cell-option"><strong>zoomLinkBox</strong></td><td class="cell-description">
+					Boolean value, describes whether to zoom link box while clicked (experimental).<br>
 					<strong class="example">Default:</strong> <code>false</code>
 				</td></tr>
 			</tbody>
@@ -653,51 +658,51 @@ var oProjector = new ReProjector({
 			</thead>
 			<tbody>
 				<tr>
-					<td class="cell-option"><strong><code>close</code></strong></td>
+					<td class="cell-option"><strong><code>close()</code></strong></td>
 					<td class="cell-description">Closes the projector’s canvas.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>addCanvasClass</code></strong></td>
+					<td class="cell-option"><strong><code>addCanvasClass(classes)</code></strong></td>
 					<td class="cell-description">Adds class(es) to projector’s canvas in order to change visibility by user defined stylesheets. String should contain space separated list of classes.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>isVisible</code></strong></td>
+					<td class="cell-option"><strong><code>isVisible()</code></strong></td>
 					<td class="cell-description">Checks if projector’s canvas is visible.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>getCurrentLink</code></strong></td>
+					<td class="cell-option"><strong><code>getCurrentLink()</code></strong></td>
 					<td class="cell-description">Returns the currenly projected element’s link (or other tag that holds the <code>href</code> or <code>data-href</code> attributes) as a DOMElement.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>setOpenCallback</code></strong></td>
+					<td class="cell-option"><strong><code>setOpenCallback(callback)</code></strong></td>
 					<td class="cell-description">Sets the open callback for projector.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>setCloseCallback</code></strong></td>
+					<td class="cell-option"><strong><code>setCloseCallback(callback)</code></strong></td>
 					<td class="cell-description">Sets the close callback for projector.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>setChangePhotographCallback</code></strong></td>
+					<td class="cell-option"><strong><code>setChangePhotographCallback(callback)</code></strong></td>
 					<td class="cell-description">Sets the callback that fires when the projector change the image.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>setCanvasClickCallback</code></strong></td>
+					<td class="cell-option"><strong><code>setCanvasClickCallback(callback)</code></strong></td>
 					<td class="cell-description">Sets the callback that fires when click over the canvas.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>expandToFullscreen</code></strong></td>
+					<td class="cell-option"><strong><code>expandToFullscreen()</code></strong></td>
 					<td class="cell-description">Sets the fullscreen mode for projector.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>exitFullscreen</code></strong></td>
+					<td class="cell-option"><strong><code>exitFullscreen()</code></strong></td>
 					<td class="cell-description">Exit the fullscreen mode for projector.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>checkIfFullscreen</code></strong></td>
+					<td class="cell-option"><strong><code>checkIfFullscreen()</code></strong></td>
 					<td class="cell-description">Check if projector is in fullscreen mode.</td>
 				</tr>
 				<tr>
-					<td class="cell-option"><strong><code>getCurrentAccentColor</code></strong></td>
+					<td class="cell-option"><strong><code>getCurrentAccentColor()</code></strong></td>
 					<td class="cell-description">Gets the current accent color of element, if applicable.</td>
 				</tr>
 			</tbody>

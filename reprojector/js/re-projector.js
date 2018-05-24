@@ -52,7 +52,8 @@ var ReProjector = function( opt )
 		'iTimerFadeOutControls': null,
 		'sToggle': null,
 		'bHideCursor': null,
-		'bShowNextOnClick': null
+		'bShowNextOnClick': null,
+		'bZoomImageBox': null
 	};
 	
 	/**
@@ -114,6 +115,11 @@ var ReProjector = function( opt )
 	 * Flag for showing next image at click over projector
 	 */
 	Options.bShowNextOnClick = false;
+	
+	/**
+	 * Zoom link box when opened; still experimental
+	 */
+	Options.bZoomImageBox = false;
 	
 	/**
 	 * Lang “Namespace”
@@ -362,7 +368,6 @@ var ReProjector = function( opt )
 				if( Inner.bTouchAndMove && Options.bSwipeNavigation ) {
 					var fDiff = Inner.iTouchAndMoveDistance - ( e.pageX || e.originalEvent.changedTouches[0].pageX );
 					
-					console.log( fDiff, Math.abs( fDiff ) )
 					if( Math.abs( fDiff ) > 40 ) {
 						Inner.swipeHandler.call( null, e, fDiff > 0 ? 'left' : 'right' );
 					}
@@ -790,6 +795,10 @@ var ReProjector = function( opt )
 		
 		if( !This.isCanvasVisible( ) )
 			Inner.preview.call( null, $( this ) );
+		
+		// EXPERIMENTAL!!!
+		if( Options.bZoomImageBox )
+			Inner.openZoomImageBox.call( this );
 		
 		return false;
 	};
@@ -1552,6 +1561,57 @@ var ReProjector = function( opt )
 	};
 	
 	/**
+	 * Experimental zoom when open link
+	 */
+	Inner.openZoomImageBox = function( )
+	{
+		oB = $( this );
+		var oRP = oB.clone( )
+		.html( '' )
+		.css({
+			'position': 'fixed',
+			'margin': 0,
+			'opacity': 0,
+			'top': oB.offset( ).top - $( document ).scrollTop( ),
+			'left': oB.offset( ).left - $( document ).scrollLeft( )
+		})
+		.appendTo( oB.parent( ) );
+		
+		var sThm = This.getCurrentTheme.call( );
+		var sTBg = '';
+		
+		switch( sThm ) {
+			case 'light': sTBg = 'rgba( 0, 0, 0, 0.3 )'; break;
+			case 'dark': sTBg = '#000'; break;
+			case 'accent': sTBg = This.getCurrentAccentColor.call( This ); break;
+		}
+		
+		setTimeout( function( )
+		{
+			oRP.css({
+				'top': 0,
+				'left': 0,
+				'right': 0,
+				'bottom': 0,
+				'width': '100%',
+				'height': '100%',
+				'opacity': 1,
+				'backgroundColor': sTBg,
+				'WebkitTransform': 'none',
+				'MozTransform': 'none',
+				'MsTransform': 'none',
+				'OTransform': 'none',
+				'transform': 'none'
+			});
+			
+			setTimeout( function( )
+			{
+				oRP.remove( );
+			}, 400);
+		}, 1);
+	};
+	
+	/**
 	 * Buildsthe projector's canvas
 	 *
 	 * @return	void
@@ -1724,7 +1784,7 @@ var ReProjector = function( opt )
 		// https://gist.github.com/w33tmaricich/7009931
 		if (typeof history.pushState === "function") {
 			window.onpopstate = function () {
-				if( This.isCanvasVisible( ) && Inner.bActive ) {
+				if( This.isCanvasVisible( ) /*&& Inner.bActive*/ ) {
 					Inner.closeReProjector.call( );
 				}
 			};
@@ -1835,6 +1895,10 @@ var ReProjector = function( opt )
 				
 				if( opt.projectionControls.showNextOnClick === true || opt.projectionControls.showNextOnClick === false ) {
 					Options.bShowNextOnClick = opt.projectionControls.showNextOnClick;
+				}
+				
+				if( opt.projectionControls.zoomLinkBox === true || opt.projectionControls.zoomLinkBox === false ) {
+					Options.bZoomImageBox = opt.projectionControls.zoomLinkBox;
 				}
 			}
 			
@@ -2020,6 +2084,16 @@ var ReProjector = function( opt )
 	{
 		var sAccentColor = this.getCurrentLink( ).data( 'accent-color' );
 		return ( sAccentColor && sAccentColor != '' ) ? sAccentColor : DEFAULT_ACCENT_COLOR;
+	};
+	
+	/**
+	 * Get theme of {Re}Projector's canvas
+	 * 
+	 * @return	String
+	 */
+	this.getCurrentTheme = function( )
+	{
+		return Inner.getCanvasBackgroundTheme.call( );
 	};
 	
 	/**
